@@ -1,8 +1,12 @@
 import { FC, useEffect } from "react";
 import { useParams } from "react-router";
+
+import { PlayerField } from "@/components/PlayerField";
 import { socket } from "@/helpers";
 import { TEST_EVENT, JOIN_ROOM } from "@/constants";
 import { useSocketListeners } from "@/hooks";
+
+import { StyledFieldContainer } from "./styles";
 
 const Room: FC = () => {
   const { roomId } = useParams<{ roomId: string }>();
@@ -23,15 +27,9 @@ const Room: FC = () => {
   ]);
 
   return (
-    <button
-      onClick={() => {
-        socket.emit(TEST_EVENT, {
-          hi: "HI",
-        });
-      }}
-    >
-      {roomId}
-    </button>
+    <StyledFieldContainer>
+      <PlayerField />
+    </StyledFieldContainer>
   );
 };
 
