@@ -3,9 +3,9 @@ import { ButtonProps } from "@/types";
 
 import { StyledButton } from "./styles";
 
-const Button: FC<ButtonProps> = ({ text, color }) => {
+const Button: FC<ButtonProps> = ({ text, color, onClick }) => {
   return (
-    <StyledButton>
+    <StyledButton color={color} onClick={onClick}>
       <span>{text}</span>
     </StyledButton>
   );

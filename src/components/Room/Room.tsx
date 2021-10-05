@@ -28,6 +28,7 @@ const Room: FC = () => {
 
   return (
     <StyledFieldContainer>
+      {roomId}
       <PlayerField />
     </StyledFieldContainer>
   );
