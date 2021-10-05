@@ -1,3 +1,3 @@
 export interface StylesType {
-  [key: string]: string | any;
+  [key: string]: string | any
 }

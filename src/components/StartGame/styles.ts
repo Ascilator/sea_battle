@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { StylesType } from "@/types";
+import styled from 'styled-components';
+import { StylesType } from '@/types';
 
 export const StyledMainScreenWrapper = styled.div<StylesType>`
   height: 100%;

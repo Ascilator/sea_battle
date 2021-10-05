@@ -1,1 +1,1 @@
-export type FieldState = Array<Array<number | string>>;
+export type FieldState = Array<Array<number | string>>

@@ -1,1 +1,1 @@
-export { StartGame } from "./StartGame";
+export { StartGame } from './StartGame';

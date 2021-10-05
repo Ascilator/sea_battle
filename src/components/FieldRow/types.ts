@@ -1,4 +1,4 @@
 export interface FieldRowProps {
-  rowData: Array<number | string>;
-  value?: number | string;
+  rowData: Array<number | string>
+  value?: number | string
 }

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledCell = styled.div`
   flex: 0 1 calc(100% / 12);

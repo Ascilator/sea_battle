@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "-": "^0.0.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -10,10 +11,18 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-jsx-a11y": "^6.3.0",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4",
     "history": "^5.0.1",
     "path": "^0.12.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-router": "^5.2.1",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "socket.io-client": "^4.2.0",
@@ -26,13 +35,10 @@
     "start": "craco start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "eject": "react-scripts eject",
+    "lint": "eslint src -c .eslintrc --ext jsmo,jsx,ts,tsx --fix",
+    "lint-only-errors": "eslint src -c .eslintrc --ext jsmo,jsx,ts,tsx ",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
   },
   "browserslist": {
     "production": [
@@ -52,6 +58,10 @@
     "@types/styled-components": "^5.1.14",
     "@types/uuid": "^8.3.1",
     "craco-alias": "^3.0.1",
+    "eslint": "^7.2.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "prettier": "^2.4.1",
     "tsconfig-paths": "^3.11.0"
   }
 }

@@ -1,8 +1,8 @@
-import styled, { css } from "styled-components";
-import { StylesType } from "@/types";
+import styled, { css } from 'styled-components';
+import { StylesType } from '@/types';
 
 interface IButton {
-  color?: string;
+  color?: string
 }
 
 export const StyledButton = styled.button<StylesType>`
@@ -22,14 +22,14 @@ export const StyledButton = styled.button<StylesType>`
     padding: 15px;
     border-radius: 1000px;
     ${(p: IButton) => css`
-      border: 1px solid darken(${p.color || "#d99d61"}, 5%);
-      background-color: ${p.color || "#d99d61"};
+      border: 1px solid darken(${p.color || '#d99d61'}, 5%);
+      background-color: ${p.color || '#d99d61'};
     `}
     box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.1s, box-shadow 0.2s, background-color 0.2s;
   }
   &:after {
-    content: "";
+    content: '';
     position: absolute;
     top: -10px;
     bottom: -10px;
@@ -43,14 +43,13 @@ export const StyledButton = styled.button<StylesType>`
   &:active {
     & span {
       ${(p: IButton) => css`
-        background-color: ${p.color || "#d99d61"};
+        background-color: ${p.color || '#d99d61'};
       `}
       transform: scale(0.97);
       box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.2);
     }
     &:after {
-      box-shadow: 0 0 2px rgba(0, 0, 0, 0.2),
-        inset -3px 3px 1em rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), inset -3px 3px 1em rgba(0, 0, 0, 0.2);
     }
   }
 `;

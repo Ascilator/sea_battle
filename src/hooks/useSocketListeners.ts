@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { useSocketListenersProp } from "@/types";
-import { socket } from "@/helpers";
+import { useEffect } from 'react';
+import { useSocketListenersProp } from '@/types';
+import { socket } from '@/helpers';
 
 const useSocketListeners = (props: useSocketListenersProp[]) => {
   useEffect(() => {
