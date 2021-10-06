@@ -6,7 +6,7 @@ const matrix = new Array<Array<number>>(10);
 for (let j = 0; j < matrix.length; j++) {
   matrix[j] = new Array(10);
   for (let i = 0; i < matrix[j].length; i++) {
-    matrix[j][i] = Math.floor(Math.random() * 4);
+    matrix[j][i] = 0;
   }
 }
 
