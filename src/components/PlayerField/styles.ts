@@ -22,3 +22,5 @@ export const StyledCoords = styled.div`
   width: 100%;
   height: calc(100% / 12);
 `;
+
+export const StyledFieldCont = styled.div``;

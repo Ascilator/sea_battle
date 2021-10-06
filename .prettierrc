@@ -2,5 +2,8 @@
   "singleQuote": true,
   "printWidth": 100,
   "tabWidth": 2,
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "implicit-arrow-linebreak": "beside",
+  "arrowParens": "avoid",
+  "proseWrap": "always"
 }

@@ -1,12 +1,18 @@
 import styled from 'styled-components';
+import { StylesType } from '@/types';
 
-export const StyledCell = styled.div`
+interface ICell {
+  color?: string;
+}
+
+export const StyledCell = styled.div<StylesType>`
   flex: 0 1 calc(100% / 12);
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   border: 1px solid #000;
+  background: ${(p: ICell) => p.color};
 `;
 
 export const StyledRow = styled.div`

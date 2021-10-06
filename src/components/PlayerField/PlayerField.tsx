@@ -3,12 +3,13 @@ import { FieldRow } from '@/components/FieldRow';
 import { alphabet, matrix } from '@/constants';
 import { FieldState } from '@/types';
 
-import { StyledField, StyledCoords, StyledCell } from './styles';
+import { StyledField, StyledCoords, StyledCell, StyledFieldCont } from './styles';
 
 const PlayerField: FC = () => {
   const [gameState] = useState<FieldState>(matrix);
 
-  const renderRows = () => gameState.map((row, index) => <FieldRow key={index} value={index + 1} rowData={row} />);
+  const renderRows = () =>
+    gameState.map((row, index) => <FieldRow key={index} value={index + 1} rowData={row} />);
 
   const renderCoords = () => (
     <StyledCoords>
@@ -20,11 +21,13 @@ const PlayerField: FC = () => {
     </StyledCoords>
   );
   return (
-    <StyledField>
-      {renderCoords()}
-      {renderRows()}
-      {renderCoords()}
-    </StyledField>
+    <StyledFieldCont>
+      <StyledField>
+        {renderCoords()}
+        {renderRows()}
+        {renderCoords()}
+      </StyledField>
+    </StyledFieldCont>
   );
 };
 
