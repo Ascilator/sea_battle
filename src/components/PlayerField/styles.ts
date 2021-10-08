@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const StyledField = styled.div`
-  border: 1px solid #000;
   width: 40vw;
   height: 40vw;
   user-select: none;
@@ -13,7 +12,6 @@ export const StyledCell = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  border: 1px solid #000;
 `;
 
 export const StyledCoords = styled.div`
@@ -23,4 +21,16 @@ export const StyledCoords = styled.div`
   height: calc(100% / 12);
 `;
 
-export const StyledFieldCont = styled.div``;
+export const StyledFieldCont = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
+
+export const StyledBtnContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+`;

@@ -28,5 +28,4 @@ export const StyledCoords = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  border: 1px solid #000;
 `;
