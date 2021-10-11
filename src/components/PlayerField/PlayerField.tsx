@@ -4,7 +4,8 @@ import { alphabet, matrix, READY_FOR_THE_BATTLE } from '@/constants';
 import { FieldState } from '@/types';
 import { Button } from '@/controls';
 import { generateShipsPosition, socket } from '@/helpers';
-import { useSocketListeners } from '@/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { changeMyStageClick } from '@/store/canClick';
 
 import {
   StyledField,
@@ -16,19 +17,12 @@ import {
 
 const PlayerField: FC = () => {
   const [gameState, setGameState] = useState<FieldState>(matrix);
-  const [acceptPosition, setAcceptPosition] = useState<boolean>(false);
-  // eslint-disable-next-line no-unused-vars
-  const [enemyAcceptPosition, setEnemyAcceptPosition] = useState<boolean>(false);
+
+  const acceptPosition = useAppSelector(state => state.canClick.myStage);
+  const dispatch = useAppDispatch();
 
   const renderRows = () =>
     gameState.map((row, index) => <FieldRow key={index} value={index + 1} rowData={row} />);
-
-  useSocketListeners([
-    {
-      eventName: READY_FOR_THE_BATTLE,
-      callback: () => setEnemyAcceptPosition(true)
-    }
-  ]);
 
   const renderCoords = () => (
     <StyledCoords>
@@ -57,7 +51,7 @@ const PlayerField: FC = () => {
             text="Accept position"
             color="#228B22"
             onClick={() => {
-              setAcceptPosition(true);
+              dispatch(changeMyStageClick());
               socket.emit(READY_FOR_THE_BATTLE);
             }}
           />

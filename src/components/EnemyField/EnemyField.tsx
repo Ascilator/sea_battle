@@ -8,7 +8,7 @@ const EnemyField: FC = () => {
   const [gameState] = useState<FieldState>(matrix);
 
   const renderRows = () =>
-    gameState.map((row, index) => <FieldRow key={index} value={index + 1} rowData={row} />);
+    gameState.map((row, index) => <FieldRow key={index} value={index + 1} rowData={row} enemy />);
 
   const renderCoords = () => (
     <StyledCoords>
