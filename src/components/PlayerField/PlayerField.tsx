@@ -18,6 +18,8 @@ import {
 const PlayerField: FC = () => {
   const [gameState, setGameState] = useState<FieldState>(matrix);
 
+  const turn = useAppSelector(state => state.turnSlice.value);
+
   const acceptPosition = useAppSelector(state => state.canClick.myStage);
   const dispatch = useAppDispatch();
 
@@ -52,7 +54,7 @@ const PlayerField: FC = () => {
             color="#228B22"
             onClick={() => {
               dispatch(changeMyStageClick());
-              socket.emit(READY_FOR_THE_BATTLE);
+              socket.emit(READY_FOR_THE_BATTLE, turn);
             }}
           />
         </StyledBtnContainer>

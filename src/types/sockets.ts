@@ -1,4 +1,5 @@
+/* eslint-disable no-unused-vars */
 export interface useSocketListenersProp {
-  eventName: string
-  callback: () => void
+  eventName: string;
+  callback: (props: any) => void;
 }

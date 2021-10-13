@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import canClickReducer from './canClick';
+import turnSliceReducer from './turn';
 
 export const store = configureStore({
   reducer: {
-    canClick: canClickReducer
+    canClick: canClickReducer,
+    turnSlice: turnSliceReducer
   }
 });
 

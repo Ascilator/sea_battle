@@ -4,14 +4,23 @@ import { useParams } from 'react-router';
 import { PlayerField } from '@/components/PlayerField';
 import { EnemyField } from '@/components/EnemyField';
 import { JOIN_ROOM, READY_FOR_THE_BATTLE } from '@/constants';
-import { useAppDispatch, useSocketListeners } from '@/hooks';
+import { useAppDispatch, useAppSelector, useSocketListeners } from '@/hooks';
 import { socket } from '@/helpers';
+import { changeTurnByData } from '@/store/turn';
 import { changeEnemyStageClick } from '@/store/canClick';
 
-import { StyledFieldContainer, StyledRoomContainer, StyledTitle } from './styles';
+import {
+  StyledFieldContainer,
+  StyledRoomContainer,
+  StyledTitle,
+  StyledTurnContainer
+} from './styles';
 
 const Room: FC = () => {
   const { roomId } = useParams<{ roomId: string }>();
+
+  const turn = useAppSelector(state => state.turnSlice.value);
+  const isMyTurn = useAppSelector(state => state.turnSlice.isMyTurn);
 
   const dispatch = useAppDispatch();
 
@@ -22,7 +31,10 @@ const Room: FC = () => {
   useSocketListeners([
     {
       eventName: READY_FOR_THE_BATTLE,
-      callback: () => dispatch(changeEnemyStageClick())
+      callback: (data: number) => {
+        dispatch(changeTurnByData(data < turn));
+        dispatch(changeEnemyStageClick());
+      }
     }
   ]);
 
@@ -33,6 +45,7 @@ const Room: FC = () => {
         <PlayerField />
         <EnemyField />
       </StyledFieldContainer>
+      <StyledTurnContainer>{isMyTurn ? 'my turn' : 'not my turn'}</StyledTurnContainer>
     </StyledRoomContainer>
   );
 };

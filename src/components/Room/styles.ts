@@ -13,3 +13,5 @@ export const StyledRoomContainer = styled.div``;
 export const StyledTitle = styled.div`
   text-align: center;
 `;
+
+export const StyledTurnContainer = styled.div``;
