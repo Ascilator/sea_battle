@@ -1,3 +1,4 @@
+import { ShotCoords } from '@/components/FieldRow/types';
 import { matrix } from '@/constants';
 import { deepClone } from './lodash';
 
@@ -15,6 +16,10 @@ export const getColor = (colorCode: number): string => {
       return '#122FAA'; // for impossible sea
     case 5:
       return '#00ff00'; // for temp ships
+    case 6:
+      return '#ff0000'; // for stricken ship
+    case 7:
+      return '#4169E1'; // for miss
     default:
       return '#ffffff';
   }
@@ -131,4 +136,21 @@ export const generateShipsPosition = (): Array<Array<number>> => {
   }
 
   return field;
+};
+
+export const changeMatrix = (
+  x: ShotCoords,
+  y: ShotCoords,
+  field: Array<Array<number>>
+): Array<Array<number>> => {
+  const copy = deepClone(field);
+  /// ???????
+  if (x === undefined || y === undefined) return copy;
+
+  if (copy[+x][+y - 1] === 3) {
+    copy[+x][+y - 1] = 6;
+  } else {
+    copy[+x][+y - 1] = 7;
+  }
+  return copy;
 };

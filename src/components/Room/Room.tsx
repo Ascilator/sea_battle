@@ -3,6 +3,8 @@ import { useParams } from 'react-router';
 
 import { PlayerField } from '@/components/PlayerField';
 import { EnemyField } from '@/components/EnemyField';
+import { Fire } from '@/components/Fire';
+import { Wait } from '@/components/Wait';
 import { JOIN_ROOM, READY_FOR_THE_BATTLE } from '@/constants';
 import { useAppDispatch, useAppSelector, useSocketListeners } from '@/hooks';
 import { socket } from '@/helpers';
@@ -21,6 +23,7 @@ const Room: FC = () => {
 
   const turn = useAppSelector(state => state.turnSlice.value);
   const isMyTurn = useAppSelector(state => state.turnSlice.isMyTurn);
+  const readyForBattle = useAppSelector(state => state.turnSlice.readyForBattle);
 
   const dispatch = useAppDispatch();
 
@@ -45,7 +48,9 @@ const Room: FC = () => {
         <PlayerField />
         <EnemyField />
       </StyledFieldContainer>
-      <StyledTurnContainer>{isMyTurn ? 'my turn' : 'not my turn'}</StyledTurnContainer>
+      {readyForBattle && isMyTurn !== null && (
+        <StyledTurnContainer>{isMyTurn ? <Fire /> : <Wait />}</StyledTurnContainer>
+      )}
     </StyledRoomContainer>
   );
 };

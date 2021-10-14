@@ -1,13 +1,24 @@
 import { FC } from 'react';
-import { alphabet } from '@/constants';
-import { getColor } from '@/helpers';
-import { useAppSelector } from '@/hooks';
-import { FieldRowProps } from './types';
+import { alphabet, DO_THE_SHOT } from '@/constants';
+import { getColor, socket } from '@/helpers';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { changeTurnByData } from '@/store/turn';
+import { FieldRowProps, ShotCoords } from './types';
 
 import { StyledCell, StyledRow, StyledCoords } from './styles';
 
 const FieldRow: FC<FieldRowProps> = ({ value, rowData, enemy = false }) => {
   const { myStage, enemyStage } = useAppSelector(state => state.canClick);
+
+  const dispatch = useAppDispatch();
+
+  const doTheShot = (x: ShotCoords, y: ShotCoords) => {
+    socket.emit(DO_THE_SHOT, {
+      x,
+      y
+    });
+    dispatch(changeTurnByData(false));
+  };
 
   const renderRow = () =>
     rowData.map((fieldValue, i) => (
@@ -16,7 +27,7 @@ const FieldRow: FC<FieldRowProps> = ({ value, rowData, enemy = false }) => {
         color={getColor(fieldValue)}
         onClick={() => {
           if (myStage && enemyStage && enemy) {
-            console.log(alphabet[i], value);
+            doTheShot(i, value);
           }
         }}
       />

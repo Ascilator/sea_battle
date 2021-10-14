@@ -1,11 +1,12 @@
 import { FC, useState } from 'react';
 import { FieldRow } from '@/components/FieldRow';
-import { alphabet, matrix, READY_FOR_THE_BATTLE } from '@/constants';
+import { alphabet, DO_THE_SHOT, matrix, READY_FOR_THE_BATTLE } from '@/constants';
 import { FieldState } from '@/types';
 import { Button } from '@/controls';
-import { generateShipsPosition, socket } from '@/helpers';
-import { useAppDispatch, useAppSelector } from '@/hooks';
+import { changeMatrix, generateShipsPosition, socket } from '@/helpers';
+import { useAppDispatch, useAppSelector, useSocketListeners } from '@/hooks';
 import { changeMyStageClick } from '@/store/canClick';
+import { setReadyForBattle } from '@/store/turn';
 
 import {
   StyledField,
@@ -14,9 +15,20 @@ import {
   StyledFieldCont,
   StyledBtnContainer
 } from './styles';
+import { ShotData } from '../FieldRow/types';
 
 const PlayerField: FC = () => {
   const [gameState, setGameState] = useState<FieldState>(matrix);
+  const [buttonShow, setButtonShow] = useState<boolean>(false);
+
+  useSocketListeners([
+    {
+      eventName: DO_THE_SHOT,
+      callback: ({ x, y }: ShotData) => {
+        setGameState(prevState => changeMatrix(x, y, prevState));
+      }
+    }
+  ]);
 
   const turn = useAppSelector(state => state.turnSlice.value);
 
@@ -47,16 +59,22 @@ const PlayerField: FC = () => {
           <Button
             text="Change position"
             color="#FFCC00"
-            onClick={() => setGameState(generateShipsPosition())}
-          />
-          <Button
-            text="Accept position"
-            color="#228B22"
             onClick={() => {
-              dispatch(changeMyStageClick());
-              socket.emit(READY_FOR_THE_BATTLE, turn);
+              setButtonShow(true);
+              setGameState(generateShipsPosition());
             }}
           />
+          {buttonShow && (
+            <Button
+              text="Accept position"
+              color="#228B22"
+              onClick={() => {
+                dispatch(changeMyStageClick());
+                dispatch(setReadyForBattle());
+                socket.emit(READY_FOR_THE_BATTLE, turn);
+              }}
+            />
+          )}
         </StyledBtnContainer>
       )}
     </StyledFieldCont>
