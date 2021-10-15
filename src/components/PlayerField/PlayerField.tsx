@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import { FieldRow } from '@/components/FieldRow';
-import { alphabet, DO_THE_SHOT, matrix, READY_FOR_THE_BATTLE } from '@/constants';
+import { alphabet, DO_THE_SHOT, HIT, matrix, MISS, READY_FOR_THE_BATTLE } from '@/constants';
 import { FieldState } from '@/types';
 import { Button } from '@/controls';
 import { changeMatrix, generateShipsPosition, socket } from '@/helpers';
@@ -25,7 +25,22 @@ const PlayerField: FC = () => {
     {
       eventName: DO_THE_SHOT,
       callback: ({ x, y }: ShotData) => {
-        setGameState(prevState => changeMatrix(x, y, prevState));
+        if (x === undefined || y === undefined) return;
+        if (gameState[+x][+y] === 3) {
+          socket.emit(HIT, {
+            x,
+            y
+          });
+          setGameState(prevState => changeMatrix(x, y, prevState));
+          return;
+        }
+        if (gameState[+x][+y] === 0 || gameState[+x][+y] === 4) {
+          setGameState(prevState => changeMatrix(x, y, prevState));
+          socket.emit(MISS, {
+            x,
+            y
+          });
+        }
       }
     }
   ]);

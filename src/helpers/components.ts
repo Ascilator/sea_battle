@@ -141,11 +141,17 @@ export const generateShipsPosition = (): Array<Array<number>> => {
 export const changeMatrix = (
   x: ShotCoords,
   y: ShotCoords,
-  field: Array<Array<number>>
+  field: Array<Array<number>>,
+  code?: number
 ): Array<Array<number>> => {
   const copy = deepClone(field);
   /// ???????
   if (x === undefined || y === undefined) return copy;
+
+  if (code) {
+    copy[+x][+y - 1] = code;
+    return copy;
+  }
 
   if (copy[+x][+y - 1] === 3) {
     copy[+x][+y - 1] = 6;
