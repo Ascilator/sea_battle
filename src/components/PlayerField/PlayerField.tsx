@@ -6,7 +6,7 @@ import { Button } from '@/controls';
 import { changeMatrix, generateShipsPosition, socket } from '@/helpers';
 import { useAppDispatch, useAppSelector, useSocketListeners } from '@/hooks';
 import { changeMyStageClick } from '@/store/canClick';
-import { setReadyForBattle } from '@/store/turn';
+import { changeTurnByData, setReadyForBattle } from '@/store/turn';
 
 import {
   StyledField,
@@ -21,26 +21,32 @@ const PlayerField: FC = () => {
   const [gameState, setGameState] = useState<FieldState>(matrix);
   const [buttonShow, setButtonShow] = useState<boolean>(false);
 
+  const dispatch = useAppDispatch();
+
   useSocketListeners([
     {
       eventName: DO_THE_SHOT,
       callback: ({ x, y }: ShotData) => {
         if (x === undefined || y === undefined) return;
-        if (gameState[+x][+y] === 3) {
-          socket.emit(HIT, {
-            x,
-            y
-          });
-          setGameState(prevState => changeMatrix(x, y, prevState));
-          return;
-        }
-        if (gameState[+x][+y] === 0 || gameState[+x][+y] === 4) {
-          setGameState(prevState => changeMatrix(x, y, prevState));
-          socket.emit(MISS, {
-            x,
-            y
-          });
-        }
+
+        setGameState(prevState => {
+          if (prevState[+y - 1][+x] === 3) {
+            socket.emit(HIT, {
+              x,
+              y
+            });
+            return changeMatrix(x, y, prevState);
+          }
+          if (prevState[+y - 1][+x] === 0 || prevState[+y - 1][+x] === 4) {
+            socket.emit(MISS, {
+              x,
+              y
+            });
+            dispatch(changeTurnByData(true));
+            return changeMatrix(x, y, prevState);
+          }
+          return prevState;
+        });
       }
     }
   ]);
@@ -48,7 +54,6 @@ const PlayerField: FC = () => {
   const turn = useAppSelector(state => state.turnSlice.value);
 
   const acceptPosition = useAppSelector(state => state.canClick.myStage);
-  const dispatch = useAppDispatch();
 
   const renderRows = () =>
     gameState.map((row, index) => <FieldRow key={index} value={index + 1} rowData={row} />);

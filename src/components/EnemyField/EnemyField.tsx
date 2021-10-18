@@ -2,14 +2,16 @@ import { FC, useState } from 'react';
 import { alphabet, HIT, matrix, MISS } from '@/constants';
 import { FieldState } from '@/types';
 import { FieldRow } from '@/components/FieldRow';
-import { useSocketListeners } from '@/hooks';
+import { useAppDispatch, useSocketListeners } from '@/hooks';
 import { changeMatrix } from '@/helpers';
+import { changeTurnByData } from '@/store/turn';
 
 import { StyledCoords, StyledCell, StyledFieldCont, StyledField } from './styles';
 import { ShotData } from '../FieldRow/types';
 
 const EnemyField: FC = () => {
   const [gameState, setGameState] = useState<FieldState>(matrix);
+  const dispatch = useAppDispatch();
 
   useSocketListeners([
     {
@@ -22,6 +24,7 @@ const EnemyField: FC = () => {
       eventName: HIT,
       callback: ({ x, y }: ShotData) => {
         setGameState(prevState => changeMatrix(x, y, prevState, 6));
+        dispatch(changeTurnByData(true));
       }
     }
   ]);

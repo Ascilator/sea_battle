@@ -1,5 +1,6 @@
+import { socket } from '@/helpers';
 import { ShotCoords } from '@/components/FieldRow/types';
-import { matrix } from '@/constants';
+import { matrix, KILL_THE_SHIP } from '@/constants';
 import { deepClone } from './lodash';
 
 export const getColor = (colorCode: number): string => {
@@ -20,6 +21,8 @@ export const getColor = (colorCode: number): string => {
       return '#ff0000'; // for stricken ship
     case 7:
       return '#4169E1'; // for miss
+    case 8:
+      return '#00ff00'; // check is killed ship
     default:
       return '#ffffff';
   }
@@ -138,6 +141,32 @@ export const generateShipsPosition = (): Array<Array<number>> => {
   return field;
 };
 
+const isKilled = (copy: Array<Array<number>>, x: number, y: number): boolean => {
+  copy[x][y] = 8;
+  if (copy[x][y - 1] !== undefined && copy[x][y - 1] === 3) return false;
+  if (copy[x - 1] !== undefined && copy[x - 1][y] === 3) return false;
+  if (copy[x + 1] !== undefined && copy[x + 1][y] === 3) return false;
+  if (copy[x][y + 1] !== undefined && copy[x][y + 1] === 3) return false;
+
+  if (copy[x][y - 1] !== undefined && copy[x][y - 1] === 6 && !isKilled(copy, x, y - 1)) {
+    return false;
+  }
+  if (copy[x - 1] !== undefined && copy[x - 1][y] === 6 && !isKilled(copy, x - 1, y)) {
+    return false;
+  }
+  if (copy[x + 1] !== undefined && copy[x + 1][y] === 6 && !isKilled(copy, x + 1, y)) {
+    return false;
+  }
+  if (copy[x][y + 1] !== undefined && copy[x][y + 1] === 6 && !isKilled(copy, x, y + 1)) {
+    return false;
+  }
+
+  return true;
+};
+
+const killShip = (copy: Array<Array<number>>, x: number, y: number): boolean =>
+  isKilled(copy, x, y);
+
 export const changeMatrix = (
   x: ShotCoords,
   y: ShotCoords,
@@ -145,18 +174,26 @@ export const changeMatrix = (
   code?: number
 ): Array<Array<number>> => {
   const copy = deepClone(field);
-  /// ???????
   if (x === undefined || y === undefined) return copy;
 
   if (code) {
-    copy[+x][+y - 1] = code;
+    copy[+y - 1][+x] = code;
     return copy;
   }
 
-  if (copy[+x][+y - 1] === 3) {
-    copy[+x][+y - 1] = 6;
+  if (copy[+y - 1][+x] === 3) {
+    copy[+y - 1][+x] = 6;
+    if (isKilled(deepClone(copy), +y - 1, +x)) {
+      const killedShip = deepClone(copy);
+      killShip(killedShip, +y - 1, +x);
+      socket.emit(KILL_THE_SHIP, {
+        x: +y - 1,
+        y: +x
+      });
+    }
   } else {
-    copy[+x][+y - 1] = 7;
+    copy[+y - 1][+x] = 7;
   }
+
   return copy;
 };
