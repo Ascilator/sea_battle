@@ -34,3 +34,5 @@ export const StyledBtnContainer = styled.div`
   gap: 20px;
   margin-top: 20px;
 `;
+
+export const StyledTurnContainer = styled.div``;

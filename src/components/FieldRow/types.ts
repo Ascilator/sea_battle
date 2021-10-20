@@ -4,7 +4,12 @@ export interface FieldRowProps {
   enemy?: boolean;
 }
 
+export type DefShotCoords = number;
 export type ShotCoords = number | string | undefined;
+
+export interface DefShotData {
+  [key: string]: DefShotCoords;
+}
 export interface ShotData {
   [key: string]: ShotCoords;
 }

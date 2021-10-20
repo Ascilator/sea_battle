@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { socket } from '@/helpers';
 import { ShotCoords } from '@/components/FieldRow/types';
 import { matrix, KILL_THE_SHIP } from '@/constants';
@@ -164,7 +165,7 @@ const isKilled = (copy: Array<Array<number>>, x: number, y: number): boolean => 
   return true;
 };
 
-const killShip = (copy: Array<Array<number>>, x: number, y: number): boolean =>
+export const killShip = (copy: Array<Array<number>>, x: number, y: number): boolean =>
   isKilled(copy, x, y);
 
 export const changeMatrix = (
@@ -183,17 +184,20 @@ export const changeMatrix = (
 
   if (copy[+y - 1][+x] === 3) {
     copy[+y - 1][+x] = 6;
-    if (isKilled(deepClone(copy), +y - 1, +x)) {
-      const killedShip = deepClone(copy);
-      killShip(killedShip, +y - 1, +x);
-      socket.emit(KILL_THE_SHIP, {
-        x: +y - 1,
-        y: +x
-      });
-    }
   } else {
     copy[+y - 1][+x] = 7;
   }
 
   return copy;
+};
+
+export const checkIsKilled = (x: ShotCoords, y: ShotCoords, field: Array<Array<number>>) => {
+  if (x === undefined || y === undefined) return;
+
+  if (isKilled(deepClone(field), +x, +y)) {
+    socket.emit(KILL_THE_SHIP, {
+      x,
+      y
+    });
+  }
 };

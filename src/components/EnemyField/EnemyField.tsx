@@ -1,13 +1,14 @@
 import { FC, useState } from 'react';
-import { alphabet, HIT, matrix, MISS } from '@/constants';
+import { alphabet, HIT, KILL_THE_SHIP, matrix, MISS } from '@/constants';
 import { FieldState } from '@/types';
 import { FieldRow } from '@/components/FieldRow';
 import { useAppDispatch, useSocketListeners } from '@/hooks';
-import { changeMatrix } from '@/helpers';
+import { changeMatrix, killShip } from '@/helpers';
 import { changeTurnByData } from '@/store/turn';
+import { deepClone } from '@/helpers/lodash';
 
 import { StyledCoords, StyledCell, StyledFieldCont, StyledField } from './styles';
-import { ShotData } from '../FieldRow/types';
+import { DefShotData, ShotData } from '../FieldRow/types';
 
 const EnemyField: FC = () => {
   const [gameState, setGameState] = useState<FieldState>(matrix);
@@ -25,6 +26,17 @@ const EnemyField: FC = () => {
       callback: ({ x, y }: ShotData) => {
         setGameState(prevState => changeMatrix(x, y, prevState, 6));
         dispatch(changeTurnByData(true));
+      }
+    },
+    {
+      eventName: KILL_THE_SHIP,
+      callback: ({ x, y }: DefShotData) => {
+        setGameState(prevState => {
+          console.log(124312341234123);
+
+          killShip(prevState, x, y);
+          return deepClone(prevState);
+        });
       }
     }
   ]);

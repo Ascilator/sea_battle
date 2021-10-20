@@ -1,9 +1,12 @@
-import { FC, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import { FC, useCallback, useEffect, useState } from 'react';
 import { FieldRow } from '@/components/FieldRow';
+import { Fire } from '@/components/Fire';
+import { Wait } from '@/components/Wait';
 import { alphabet, DO_THE_SHOT, HIT, matrix, MISS, READY_FOR_THE_BATTLE } from '@/constants';
 import { FieldState } from '@/types';
 import { Button } from '@/controls';
-import { changeMatrix, generateShipsPosition, socket } from '@/helpers';
+import { changeMatrix, checkIsKilled, generateShipsPosition, socket } from '@/helpers';
 import { useAppDispatch, useAppSelector, useSocketListeners } from '@/hooks';
 import { changeMyStageClick } from '@/store/canClick';
 import { changeTurnByData, setReadyForBattle } from '@/store/turn';
@@ -13,13 +16,17 @@ import {
   StyledCoords,
   StyledCell,
   StyledFieldCont,
-  StyledBtnContainer
+  StyledBtnContainer,
+  StyledTurnContainer
 } from './styles';
 import { ShotData } from '../FieldRow/types';
 
 const PlayerField: FC = () => {
   const [gameState, setGameState] = useState<FieldState>(matrix);
+  const [coords, setCoords] = useState<Array<number>>([]);
   const [buttonShow, setButtonShow] = useState<boolean>(false);
+  const isMyTurn = useAppSelector(state => state.turnSlice.isMyTurn);
+  const readyForBattle = useAppSelector(state => state.turnSlice.readyForBattle);
 
   const dispatch = useAppDispatch();
 
@@ -28,28 +35,37 @@ const PlayerField: FC = () => {
       eventName: DO_THE_SHOT,
       callback: ({ x, y }: ShotData) => {
         if (x === undefined || y === undefined) return;
-
-        setGameState(prevState => {
-          if (prevState[+y - 1][+x] === 3) {
-            socket.emit(HIT, {
-              x,
-              y
-            });
-            return changeMatrix(x, y, prevState);
-          }
-          if (prevState[+y - 1][+x] === 0 || prevState[+y - 1][+x] === 4) {
-            socket.emit(MISS, {
-              x,
-              y
-            });
-            dispatch(changeTurnByData(true));
-            return changeMatrix(x, y, prevState);
-          }
-          return prevState;
-        });
+        setGameState(prevState => changeMatrix(x, y, prevState));
+        setCoords([+x, +y]);
       }
     }
   ]);
+
+  useEffect(() => {
+    let nextTurn = false;
+    if (coords.length) {
+      const [x, y] = [...coords];
+      if (gameState[+y - 1][+x] === 6) {
+        socket.emit(HIT, {
+          x,
+          y
+        });
+        nextTurn = false;
+      }
+      if (gameState[+y - 1][+x] === 7) {
+        socket.emit(MISS, {
+          x,
+          y
+        });
+        nextTurn = true;
+      }
+      console.log(gameState);
+
+      checkIsKilled(y - 1, x, gameState);
+
+      dispatch(changeTurnByData(nextTurn));
+    }
+  }, [coords]);
 
   const turn = useAppSelector(state => state.turnSlice.value);
 
@@ -96,6 +112,9 @@ const PlayerField: FC = () => {
             />
           )}
         </StyledBtnContainer>
+      )}
+      {readyForBattle && isMyTurn !== null && (
+        <StyledTurnContainer>{isMyTurn ? <Fire /> : <Wait />}</StyledTurnContainer>
       )}
     </StyledFieldCont>
   );
