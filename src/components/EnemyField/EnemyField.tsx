@@ -32,8 +32,6 @@ const EnemyField: FC = () => {
       eventName: KILL_THE_SHIP,
       callback: ({ x, y }: DefShotData) => {
         setGameState(prevState => {
-          console.log(124312341234123);
-
           killShip(prevState, x, y);
           return deepClone(prevState);
         });

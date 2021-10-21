@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { FC, useCallback, useEffect, useState } from 'react';
 import { FieldRow } from '@/components/FieldRow';
-import { Fire } from '@/components/Fire';
-import { Wait } from '@/components/Wait';
 import { alphabet, DO_THE_SHOT, HIT, matrix, MISS, READY_FOR_THE_BATTLE } from '@/constants';
 import { FieldState } from '@/types';
 import { Button } from '@/controls';
@@ -16,8 +14,7 @@ import {
   StyledCoords,
   StyledCell,
   StyledFieldCont,
-  StyledBtnContainer,
-  StyledTurnContainer
+  StyledBtnContainer
 } from './styles';
 import { ShotData } from '../FieldRow/types';
 
@@ -25,8 +22,6 @@ const PlayerField: FC = () => {
   const [gameState, setGameState] = useState<FieldState>(matrix);
   const [coords, setCoords] = useState<Array<number>>([]);
   const [buttonShow, setButtonShow] = useState<boolean>(false);
-  const isMyTurn = useAppSelector(state => state.turnSlice.isMyTurn);
-  const readyForBattle = useAppSelector(state => state.turnSlice.readyForBattle);
 
   const dispatch = useAppDispatch();
 
@@ -59,9 +54,8 @@ const PlayerField: FC = () => {
         });
         nextTurn = true;
       }
-      console.log(gameState);
 
-      checkIsKilled(y - 1, x, gameState);
+      if (!nextTurn) checkIsKilled(y - 1, x, gameState);
 
       dispatch(changeTurnByData(nextTurn));
     }
@@ -112,9 +106,6 @@ const PlayerField: FC = () => {
             />
           )}
         </StyledBtnContainer>
-      )}
-      {readyForBattle && isMyTurn !== null && (
-        <StyledTurnContainer>{isMyTurn ? <Fire /> : <Wait />}</StyledTurnContainer>
       )}
     </StyledFieldCont>
   );

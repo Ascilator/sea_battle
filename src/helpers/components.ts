@@ -193,7 +193,6 @@ export const changeMatrix = (
 
 export const checkIsKilled = (x: ShotCoords, y: ShotCoords, field: Array<Array<number>>) => {
   if (x === undefined || y === undefined) return;
-
   if (isKilled(deepClone(field), +x, +y)) {
     socket.emit(KILL_THE_SHIP, {
       x,

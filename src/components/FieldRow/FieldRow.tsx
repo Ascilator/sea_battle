@@ -9,6 +9,7 @@ import { StyledCell, StyledRow, StyledCoords } from './styles';
 
 const FieldRow: FC<FieldRowProps> = ({ value, rowData, enemy = false }) => {
   const { myStage, enemyStage } = useAppSelector(state => state.canClick);
+  const isMyTurn = useAppSelector(state => state.turnSlice.isMyTurn);
 
   const dispatch = useAppDispatch();
 
@@ -26,7 +27,7 @@ const FieldRow: FC<FieldRowProps> = ({ value, rowData, enemy = false }) => {
         key={`${value}_${alphabet[i]}`}
         color={getColor(fieldValue)}
         onClick={() => {
-          if (myStage && enemyStage && enemy) {
+          if (myStage && enemyStage && isMyTurn && enemy) {
             doTheShot(i, value);
           }
         }}
