@@ -1,11 +1,17 @@
-/* eslint-disable no-unused-vars */
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+
 import { FieldRow } from '@/components/FieldRow';
+
 import { alphabet, DO_THE_SHOT, HIT, matrix, MISS, READY_FOR_THE_BATTLE } from '@/constants';
+
 import { FieldState } from '@/types';
+
 import { Button } from '@/controls';
+
 import { changeMatrix, checkIsKilled, generateShipsPosition, socket } from '@/helpers';
+
 import { useAppDispatch, useAppSelector, useSocketListeners } from '@/hooks';
+
 import { changeMyStageClick } from '@/store/canClick';
 import { changeTurnByData, setReadyForBattle } from '@/store/turn';
 

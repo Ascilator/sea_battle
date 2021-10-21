@@ -1,8 +1,10 @@
 import { FC } from 'react';
+
 import { alphabet, DO_THE_SHOT } from '@/constants';
 import { getColor, socket } from '@/helpers';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { changeTurnByData } from '@/store/turn';
+
 import { FieldRowProps, ShotCoords } from './types';
 
 import { StyledCell, StyledRow, StyledCoords } from './styles';

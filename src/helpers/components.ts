@@ -1,7 +1,8 @@
-/* eslint-disable no-unused-vars */
 import { socket } from '@/helpers';
 import { ShotCoords } from '@/components/FieldRow/types';
 import { matrix, KILL_THE_SHIP } from '@/constants';
+import { FieldType } from '@/types';
+
 import { deepClone } from './lodash';
 
 export const getColor = (colorCode: number): string => {
@@ -36,7 +37,7 @@ const getLength = (iteration: number): number => {
   return 1;
 };
 
-const dropSheep = (fieldMatrix: Array<Array<number>>, drop: boolean): void => {
+const dropSheep = (fieldMatrix: FieldType, drop: boolean): void => {
   if (!drop) {
     for (let i = 0; i < fieldMatrix.length; i++) {
       for (let j = 0; j < fieldMatrix.length; j++) {
@@ -91,7 +92,7 @@ const dropSheep = (fieldMatrix: Array<Array<number>>, drop: boolean): void => {
 };
 
 const placeShip = (
-  fieldMatrix: Array<Array<number>>,
+  fieldMatrix: FieldType,
   length: number,
   x: number,
   y: number,
@@ -124,7 +125,7 @@ const placeShip = (
   return true;
 };
 
-export const generateShipsPosition = (): Array<Array<number>> => {
+export const generateShipsPosition = (): FieldType => {
   const NUMBER_OF_SHIPS = 10;
   const field = deepClone(matrix);
 
@@ -142,7 +143,7 @@ export const generateShipsPosition = (): Array<Array<number>> => {
   return field;
 };
 
-const isKilled = (copy: Array<Array<number>>, x: number, y: number): boolean => {
+const isKilled = (copy: FieldType, x: number, y: number): boolean => {
   copy[x][y] = 8;
   if (copy[x][y - 1] !== undefined && copy[x][y - 1] === 3) return false;
   if (copy[x - 1] !== undefined && copy[x - 1][y] === 3) return false;
@@ -165,15 +166,14 @@ const isKilled = (copy: Array<Array<number>>, x: number, y: number): boolean => 
   return true;
 };
 
-export const killShip = (copy: Array<Array<number>>, x: number, y: number): boolean =>
-  isKilled(copy, x, y);
+export const killShip = (copy: FieldType, x: number, y: number): boolean => isKilled(copy, x, y);
 
 export const changeMatrix = (
   x: ShotCoords,
   y: ShotCoords,
-  field: Array<Array<number>>,
+  field: FieldType,
   code?: number
-): Array<Array<number>> => {
+): FieldType => {
   const copy = deepClone(field);
   if (x === undefined || y === undefined) return copy;
 
@@ -191,7 +191,7 @@ export const changeMatrix = (
   return copy;
 };
 
-export const checkIsKilled = (x: ShotCoords, y: ShotCoords, field: Array<Array<number>>) => {
+export const checkIsKilled = (x: ShotCoords, y: ShotCoords, field: FieldType) => {
   if (x === undefined || y === undefined) return;
   if (isKilled(deepClone(field), +x, +y)) {
     socket.emit(KILL_THE_SHIP, {

@@ -1,4 +1,6 @@
 export const TEST_EVENT: string = 'test event';
+export const JOINED_ROOM: string = 'joined room';
+export const NOT_POSSIBLE_TO_CONNECT: string = 'not possible to connect';
 export const JOIN_ROOM: string = 'join room';
 export const READY_FOR_THE_BATTLE: string = 'ready for the battle';
 
