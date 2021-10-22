@@ -60,7 +60,6 @@ const Room: FC = () => {
           if (prevState === 1) {
             return 2;
           }
-          console.log(prevState);
           socket.emit(NOT_POSSIBLE_TO_CONNECT);
           return prevState;
         });
@@ -73,8 +72,6 @@ const Room: FC = () => {
           if (prevState === 1) {
             history.replace('/');
           }
-          console.log(prevState);
-
           return prevState;
         });
       }
