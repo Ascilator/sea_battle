@@ -16,5 +16,4 @@ const Router: FC = () => (
     </Switch>
   </AppRouter>
 );
-
 export { Router };

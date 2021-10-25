@@ -1,7 +1,7 @@
 {
   "env": {
-    "jest/globals": true,
-    "jest": true
+    "browser": true,
+    "jest/globals": true
   },
   "extends": ["plugin:react/recommended", "airbnb", "plugin:jest/recommended"],
 
@@ -57,7 +57,8 @@
         "react-hooks/exhaustive-deps": "off"
       },
       "env": {
-        "jest": true
+        "jest": true,
+        "jest/globals": true
       }
     }
   ]
