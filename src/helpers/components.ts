@@ -1,6 +1,6 @@
 import { socket } from '@/helpers';
 import { ShotCoords } from '@/components/FieldRow/types';
-import { matrix, KILL_THE_SHIP } from '@/constants';
+import { KILL_THE_SHIP } from '@/constants';
 import { FieldType } from '@/types';
 
 import { deepClone } from './lodash';
@@ -30,7 +30,8 @@ export const getColor = (colorCode: number): string => {
   }
 };
 
-const getLength = (iteration: number): number => {
+export const getLength = (iteration: number): number => {
+  if (iteration < 0 || iteration > 9) return 0;
   if (iteration === 0) return 4;
   if (iteration === 1 || iteration === 2) return 3;
   if (iteration >= 3 && iteration <= 5) return 2;
@@ -125,9 +126,22 @@ const placeShip = (
   return true;
 };
 
+export const createEmptyMatrix = () => {
+  const cratedMatrix = new Array<Array<number>>(10);
+
+  for (let j = 0; j < cratedMatrix.length; j++) {
+    cratedMatrix[j] = new Array(10);
+    for (let i = 0; i < cratedMatrix[j].length; i++) {
+      cratedMatrix[j][i] = 0;
+    }
+  }
+  return cratedMatrix;
+};
+
 export const generateShipsPosition = (): FieldType => {
   const NUMBER_OF_SHIPS = 10;
-  const field = deepClone(matrix);
+
+  const field = deepClone(createEmptyMatrix());
 
   for (let i = 0; i < NUMBER_OF_SHIPS; i++) {
     let isPlaced = false;
@@ -143,7 +157,8 @@ export const generateShipsPosition = (): FieldType => {
   return field;
 };
 
-const isKilled = (copy: FieldType, x: number, y: number): boolean => {
+export const isKilled = (copy: FieldType, x: number, y: number): boolean => {
+  if (copy[x][y] !== 3) return false;
   copy[x][y] = 8;
   if (copy[x][y - 1] !== undefined && copy[x][y - 1] === 3) return false;
   if (copy[x - 1] !== undefined && copy[x - 1][y] === 3) return false;

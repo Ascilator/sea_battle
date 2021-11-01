@@ -40,7 +40,7 @@
   "scripts": {
     "start": "craco start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "jest --watch --maxWorkers=1",
     "eject": "react-scripts eject",
     "lint": "eslint src -c .eslintrc --ext jsmo,jsx,ts,tsx --fix",
     "lint-only-errors": "eslint src -c .eslintrc --ext jsmo,jsx,ts,tsx ",
@@ -54,7 +54,12 @@
     "moduleNameMapper": {
       "@/": "<rootDir>/src"
     },
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "globals": {
+      "ts-jest": {
+        "isolatedModules": true
+      }
+    }
   },
   "browserslist": {
     "production": [
