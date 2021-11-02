@@ -183,24 +183,20 @@ export const isKilled = (copy: FieldType, x: number, y: number): boolean => {
 
 export const killShip = (copy: FieldType, x: number, y: number): boolean => isKilled(copy, x, y);
 
-export const changeMatrix = (
-  x: ShotCoords,
-  y: ShotCoords,
-  field: FieldType,
-  code?: number
-): FieldType => {
-  const copy = deepClone(field);
+export const changeMatrix = (x: number, y: number, field: FieldType, code?: number): FieldType => {
+  // const copy = deepClone(field);
+  const copy = field;
   if (x === undefined || y === undefined) return copy;
 
   if (code) {
-    copy[+y - 1][+x] = code;
+    copy[+y][+x] = code;
     return copy;
   }
 
-  if (copy[+y - 1][+x] === 3) {
-    copy[+y - 1][+x] = 6;
+  if (copy[+y][+x] === 3) {
+    copy[+y][+x] = 6;
   } else {
-    copy[+y - 1][+x] = 7;
+    copy[+y][+x] = 7;
   }
 
   return copy;

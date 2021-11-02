@@ -4,7 +4,8 @@ import {
   getLength,
   createEmptyMatrix,
   generateShipsPosition,
-  isKilled
+  isKilled,
+  changeMatrix
 } from './components';
 import { deepClone } from './lodash';
 
@@ -68,7 +69,7 @@ test('createEmptyMatrix', () => {
   });
 });
 
-test('getShip position', () => {
+test('generateShipsPosition', () => {
   const field: FieldType = generateShipsPosition();
   const [numberOfDecks, impossiblesSeas]: Array<number> = field.reduce(
     (prevValue, row) => {
@@ -132,4 +133,20 @@ test('isKilled', () => {
 
   // horizontal
   expect(isKilled(field, 2, 8)).toBeTruthy();
+});
+
+test('changeMatrix', () => {
+  const field: FieldType = generateShipsPosition();
+
+  field.forEach((row, x) =>
+    row.forEach((cell, y) => {
+      changeMatrix(x, y, field);
+    })
+  );
+  field.forEach(row =>
+    row.forEach(cell => {
+      expect(cell).toBeGreaterThanOrEqual(6);
+      expect(cell).toBeLessThanOrEqual(7);
+    })
+  );
 });

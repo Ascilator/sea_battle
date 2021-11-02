@@ -8,7 +8,7 @@ import { changeTurnByData } from '@/store/turn';
 import { deepClone } from '@/helpers/lodash';
 
 import { StyledCoords, StyledCell, StyledFieldCont, StyledField } from './styles';
-import { DefShotData, ShotData } from '../FieldRow/types';
+import { DefShotData } from '../FieldRow/types';
 
 const EnemyField: FC = () => {
   const [gameState, setGameState] = useState<FieldState>(matrix);
@@ -17,14 +17,14 @@ const EnemyField: FC = () => {
   useSocketListeners([
     {
       eventName: MISS,
-      callback: ({ x, y }: ShotData) => {
-        setGameState(prevState => changeMatrix(x, y, prevState, 7));
+      callback: ({ x, y }: { x: number; y: number }) => {
+        setGameState(prevState => changeMatrix(x, y - 1, prevState, 7));
       }
     },
     {
       eventName: HIT,
-      callback: ({ x, y }: ShotData) => {
-        setGameState(prevState => changeMatrix(x, y, prevState, 6));
+      callback: ({ x, y }: { x: number; y: number }) => {
+        setGameState(prevState => changeMatrix(x, y - 1, prevState, 6));
         dispatch(changeTurnByData(true));
       }
     },
