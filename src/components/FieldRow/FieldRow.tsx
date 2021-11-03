@@ -29,7 +29,7 @@ const FieldRow: FC<FieldRowProps> = ({ value, rowData, enemy = false }) => {
         key={`${value}_${alphabet[i]}`}
         color={getColor(fieldValue)}
         onClick={() => {
-          if (myStage && enemyStage && isMyTurn && enemy) {
+          if (myStage && enemyStage && isMyTurn && enemy && fieldValue === 0) {
             doTheShot(i, value);
           }
         }}

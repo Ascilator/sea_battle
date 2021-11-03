@@ -20,12 +20,12 @@ import {
   StyledFieldContainer,
   StyledRoomContainer,
   StyledTitle,
-  StyledTurnContainer
+  StyledTurnContainer,
+  StyledLoader
 } from './styles';
 
 const Room: FC = () => {
   const { roomId } = useParams<{ roomId: string }>();
-  // eslint-disable-next-line no-unused-vars
   const history = useHistory();
 
   const turn = useAppSelector(state => state.turnSlice.value);
@@ -46,16 +46,12 @@ const Room: FC = () => {
       callback: (data: number) => {
         dispatch(changeTurnByData(data < turn));
         dispatch(changeEnemyStageClick());
+        // add one more notification for ready to battle
       }
     },
     {
       eventName: JOINED_ROOM,
       callback: () => {
-        // if (poss === 1) {
-        //   setPoss(2);
-        // } else {
-        //   socket.emit(NOT_POSSIBLE_TO_CONNECT);
-        // }
         setPoss(prevState => {
           if (prevState === 1) {
             return 2;
@@ -85,6 +81,7 @@ const Room: FC = () => {
         <PlayerField />
         <EnemyField />
       </StyledFieldContainer>
+      {readyForBattle && isMyTurn === null && <StyledLoader>loader</StyledLoader>}
       {readyForBattle && isMyTurn !== null && (
         <StyledTurnContainer>{isMyTurn ? <Fire /> : <Wait />}</StyledTurnContainer>
       )}

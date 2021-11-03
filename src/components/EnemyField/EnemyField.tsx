@@ -18,13 +18,13 @@ const EnemyField: FC = () => {
     {
       eventName: MISS,
       callback: ({ x, y }: { x: number; y: number }) => {
-        setGameState(prevState => changeMatrix(x, y - 1, prevState, 7));
+        setGameState(prevState => changeMatrix(x, y, prevState, 7));
       }
     },
     {
       eventName: HIT,
       callback: ({ x, y }: { x: number; y: number }) => {
-        setGameState(prevState => changeMatrix(x, y - 1, prevState, 6));
+        setGameState(prevState => changeMatrix(x, y, prevState, 6));
         dispatch(changeTurnByData(true));
       }
     },

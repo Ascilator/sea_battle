@@ -158,7 +158,7 @@ export const generateShipsPosition = (): FieldType => {
 };
 
 export const isKilled = (copy: FieldType, x: number, y: number): boolean => {
-  if (copy[x][y] !== 3) return false;
+  if (copy[x][y] !== 6) return false;
   copy[x][y] = 8;
   if (copy[x][y - 1] !== undefined && copy[x][y - 1] === 3) return false;
   if (copy[x - 1] !== undefined && copy[x - 1][y] === 3) return false;
@@ -181,12 +181,53 @@ export const isKilled = (copy: FieldType, x: number, y: number): boolean => {
   return true;
 };
 
-export const killShip = (copy: FieldType, x: number, y: number): boolean => isKilled(copy, x, y);
+export const fillSquare = (copy: FieldType, x: number, y: number) => {
+  for (let localX = x - 1; localX <= x + 1; localX++) {
+    for (let localY = y - 1; localY <= y + 1; localY++) {
+      if (
+        copy[localX] !== undefined &&
+        copy[localX][localY] !== undefined &&
+        copy[localX][localY] !== 8
+      ) {
+        copy[localX][localY] = 7;
+      }
+    }
+  }
+};
+
+export const addMissedFields = (copy: FieldType, x: number, y: number) => {
+  fillSquare(copy, x, y);
+
+  if (copy[x - 1] !== undefined && copy[x - 1][y] === 8) {
+    addMissedFields(copy, x - 1, y);
+  }
+  if (copy[x + 1] !== undefined && copy[x + 1][y] === 8) {
+    addMissedFields(copy, x + 1, y);
+  }
+  if (copy[x][y - 1] !== undefined && copy[x][y - 1] === 8) {
+    addMissedFields(copy, x, y - 1);
+  }
+  if (copy[x][y + 1] !== undefined && copy[x][y + 1] === 8) {
+    addMissedFields(copy, x, y + 1);
+  }
+};
+
+export const killShip = (copy: FieldType, x: number, y: number): boolean => {
+  const isKill = isKilled(copy, x, y);
+
+  if (isKill) {
+    addMissedFields(copy, x, y);
+  }
+
+  return isKill;
+};
 
 export const changeMatrix = (x: number, y: number, field: FieldType, code?: number): FieldType => {
-  // const copy = deepClone(field);
-  const copy = field;
-  if (x === undefined || y === undefined) return copy;
+  if (x === undefined || y === undefined) return field;
+
+  const copy = deepClone(field);
+
+  // const copy = field;
 
   if (code) {
     copy[+y][+x] = code;

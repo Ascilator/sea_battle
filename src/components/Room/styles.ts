@@ -15,3 +15,5 @@ export const StyledTitle = styled.div`
 `;
 
 export const StyledTurnContainer = styled.div``;
+
+export const StyledLoader = styled.div``;

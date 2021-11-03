@@ -45,14 +45,14 @@ const PlayerField: FC = () => {
     let nextTurn = false;
     if (coords.length) {
       const [x, y] = [...coords];
-      if (gameState[+y - 1][+x] === 6) {
+      if (gameState[+y][+x] === 6) {
         socket.emit(HIT, {
           x,
           y
         });
         nextTurn = false;
       }
-      if (gameState[+y - 1][+x] === 7) {
+      if (gameState[+y][+x] === 7) {
         socket.emit(MISS, {
           x,
           y
@@ -60,7 +60,7 @@ const PlayerField: FC = () => {
         nextTurn = true;
       }
 
-      if (!nextTurn) checkIsKilled(y - 1, x, gameState);
+      if (!nextTurn) checkIsKilled(y, x, gameState);
 
       dispatch(changeTurnByData(nextTurn));
     }
