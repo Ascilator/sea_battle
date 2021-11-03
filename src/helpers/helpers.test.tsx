@@ -89,28 +89,28 @@ test('generateShipsPosition', () => {
 test('isKilled', () => {
   // initializing field
   const field: FieldType = createEmptyMatrix();
-  field[0][0] = 3; // [ ]
+  field[0][0] = 6; // [ ]
 
-  field[2][0] = 3; // [ ]
+  field[2][0] = 6; // [ ]
   field[2][1] = 8; // [x]
 
   field[4][0] = 8; // [x]
-  field[4][1] = 3; // [ ]
+  field[4][1] = 6; // [ ]
   field[4][2] = 8; // [x]
 
   field[6][0] = 8; // [x]
   field[6][1] = 8; // [x]
-  field[6][2] = 3; // [ ]
+  field[6][2] = 6; // [ ]
   field[6][3] = 8; // [x]
 
   field[8][0] = 8; // [x]
   field[8][1] = 3; // [ ]
-  field[8][2] = 3; // [ ]
+  field[8][2] = 6; // [ ]
   field[8][3] = 8; // [x]
 
   field[0][8] = 8; // [x][x][ ][x]
   field[1][8] = 8;
-  field[2][8] = 3;
+  field[2][8] = 6;
   field[3][8] = 8;
 
   // 1 deck
@@ -136,17 +136,12 @@ test('isKilled', () => {
 });
 
 test('changeMatrix', () => {
-  const field: FieldType = generateShipsPosition();
+  const field: FieldType = createEmptyMatrix();
+  field[0][1] = 3;
+  field[0][2] = 4;
+  changeMatrix(0, 0, field);
+  changeMatrix(0, 1, field);
+  changeMatrix(0, 2, field);
 
-  field.forEach((row, x) =>
-    row.forEach((cell, y) => {
-      changeMatrix(x, y, field);
-    })
-  );
-  field.forEach(row =>
-    row.forEach(cell => {
-      expect(cell).toBeGreaterThanOrEqual(6);
-      expect(cell).toBeLessThanOrEqual(7);
-    })
-  );
+  expect(field[0][0]).toEqual(0);
 });
