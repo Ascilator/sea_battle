@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Wait render 1`] = `
+<div
+  className="sc-bdvvtL fa-DwsF"
+>
+  Wait!
+</div>
+`;

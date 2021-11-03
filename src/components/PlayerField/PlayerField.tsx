@@ -22,7 +22,6 @@ import {
   StyledFieldCont,
   StyledBtnContainer
 } from './styles';
-import { ShotData } from '../FieldRow/types';
 
 const PlayerField: FC = () => {
   const [gameState, setGameState] = useState<FieldState>(matrix);
@@ -34,7 +33,7 @@ const PlayerField: FC = () => {
   useSocketListeners([
     {
       eventName: DO_THE_SHOT,
-      callback: ({ x, y }: ShotData) => {
+      callback: ({ x, y }: { x: number; y: number }) => {
         if (x === undefined || y === undefined) return;
         setGameState(prevState => changeMatrix(x, y, prevState));
         setCoords([+x, +y]);

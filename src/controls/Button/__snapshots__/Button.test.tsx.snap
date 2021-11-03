@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button render 1`] = `
+<button
+  className="sc-bdvvtL deOBat"
+  color="#0f0"
+  onClick={[Function]}
+>
+  <span>
+    test btn
+  </span>
+</button>
+`;
+
+exports[`Button render 2`] = `
+<button
+  className="sc-bdvvtL jlnfRj"
+  color="#0ff"
+  onClick={[Function]}
+>
+  <span>
+    test btn
+  </span>
+</button>
+`;
+
+exports[`Button render 3`] = `
+<button
+  className="sc-bdvvtL deOBat"
+  color="#0f0"
+  onClick={[Function]}
+>
+  <span>
+    button with text
+  </span>
+</button>
+`;

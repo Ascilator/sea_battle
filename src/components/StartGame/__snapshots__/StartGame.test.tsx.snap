@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StartGame render 1`] = `
+<div
+  className="sc-gsDKAQ isJwyh"
+>
+  <button
+    className="sc-bdvvtL fsPlRH"
+    color="#000080"
+    onClick={[Function]}
+  >
+    <span>
+      Start Game
+    </span>
+  </button>
+</div>
+`;
